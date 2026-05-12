@@ -4,9 +4,9 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 
 const tabs = [
-  { label: "Home", href: "/", icon: "😀" },
-  { label: "Submit", href: "/submit", icon: "😀" },
-  { label: "Profile", href: "/profile", icon: "😀" },
+  { label: "Home", href: "/", icon: "🏠" },
+  { label: "Chat", href: "/chat", icon: "💬" },
+  { label: "Settings", href: "/settings", icon: "⛭" },
 ]
 
 export default function TabBar() {
