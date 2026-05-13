@@ -3,5 +3,5 @@ export default function QuestionnaireLayout({
 }: {
   children: React.ReactNode
 }) {
-  return <div className="bg-accent">{children}</div>
+  return <div className="h-full bg-accent">{children}</div>
 }
