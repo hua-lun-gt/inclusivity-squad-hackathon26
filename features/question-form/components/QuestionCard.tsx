@@ -1,5 +1,5 @@
 "use client"
-
+import { PoundSterling } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -8,20 +8,31 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Field, FieldLabel } from "@/components/ui/field"
 import {
   PopoverTrigger,
   PopoverContent,
   Popover,
 } from "@/components/ui/popover"
-import { Calendar } from "lucide-react"
 import { useState } from "react"
-
+import { ButtonGroup } from "@/components/ui/button-group"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 import { DayPicker } from "react-day-picker"
 import "react-day-picker/dist/style.css"
+
+import { Input } from "@/components/ui/input"
+import {
+  FieldGroup,
+  FieldSet,
+  FieldLegend,
+  FieldDescription,
+  FieldLabel,
+  Field,
+  FieldContent,
+  FieldTitle,
+} from "@/components/ui/field"
+
 export type QuestionType = "DateField" | "Amount" | "MCQ" | "MultiSelect"
 export type OptionDef = { header: string; subheader: string }
 
@@ -29,6 +40,7 @@ interface QuestionCardProps {
   title: string
   subtitle: string
   type: QuestionType
+  body?: string
   options?: OptionDef[]
 }
 
@@ -36,6 +48,7 @@ export default function QuestionCard(props: QuestionCardProps) {
   const [selected, setSelected] = useState<Date>(new Date())
   const questionField = () => {
     const qType = props.type
+    console.log(props)
     if (qType == "DateField") {
       return (
         <Popover>
@@ -54,7 +67,68 @@ export default function QuestionCard(props: QuestionCardProps) {
           </PopoverContent>
         </Popover>
       )
+    } else if (qType == "Amount") {
+      return (
+        <div>
+          <div className="pb-2 text-base/5">{props.body}</div>
+          <ButtonGroup className="w-full">
+            <Button
+              variant="outline"
+              disabled
+              className="h-10 rounded-md border-primary"
+            >
+              <PoundSterling />
+            </Button>
+            <Input
+              className="h-10 bg-background"
+              id="input-button"
+              placeholder="3,115"
+            />
+          </ButtonGroup>
+        </div>
+      )
     } else if (qType == "MCQ") {
+      return (
+        <Card>
+          {/* <RadioGroup defaultValue="option-1">
+            {props.options?.map((option, index) => (
+              <CardContent key={index} className="p-6">
+                <div className="flex justify-between gap-3">
+                  <Label htmlFor={`option-${index}`}>{option.header}</Label>
+                  <RadioGroupItem
+                    value={`option-${index}`}
+                    id={`option-${index}`}
+                  />
+                </div>
+              </CardContent>
+            ))}
+          </RadioGroup> */}
+          {/* <FieldGroup className="w-full max-w-xs">
+            <FieldSet>
+              <FieldLegend variant="label">Compute Environment</FieldLegend>
+              <FieldDescription>
+                Select the compute environment for your cluster.
+              </FieldDescription> */}
+          <RadioGroup className="gap-0">
+            {props.options?.map((option, index) => (
+              <FieldLabel key={index} htmlFor={`option-${index}`}>
+                <Field orientation="horizontal">
+                  <FieldContent>
+                    <FieldTitle>{option.header}</FieldTitle>
+                    <FieldDescription>{option.subheader}</FieldDescription>
+                  </FieldContent>
+
+                  <RadioGroupItem
+                    value={`option-${index}`}
+                    id={`option-${index}`}
+                  />
+                </Field>
+              </FieldLabel>
+            ))}
+          </RadioGroup>
+        </Card>
+      )
+    } else if (qType == "MultiSelect") {
       return (
         <Card>
           <RadioGroup defaultValue="option-1">
@@ -74,6 +148,7 @@ export default function QuestionCard(props: QuestionCardProps) {
       )
     }
   }
+
   return (
     <Card className="w-full bg-accent p-0 ring-0">
       <CardHeader>

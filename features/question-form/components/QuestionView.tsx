@@ -35,6 +35,64 @@ const questions = [
       },
     ],
   },
+  {
+    title: "When is your expected due date?",
+    subtitle: "You and your baby",
+    type: "DateField",
+  },
+  {
+    title: "Do you live with a partner?",
+    subtitle: "Your home",
+    type: "MCQ",
+    options: [
+      {
+        header: "Yes",
+      },
+      {
+        header: "No",
+      },
+    ],
+  },
+  {
+    title: "What is your employment status?",
+    subtitle: "Your work and earnings",
+    type: "MCQ",
+    options: [
+      {
+        header: "Employed",
+      },
+      {
+        header: "Self-employed",
+      },
+      {
+        header: "Unemployed",
+      },
+    ],
+  },
+  {
+    title: "What is your total monthly household income",
+    subtitle: "Your work and earnings",
+    type: "Amount",
+    body: "This is the total monthly amount you and your partner earn before tax.",
+  },
+  {
+    title: "Is anyone in your household already receiving support?",
+    subtitle: "Your current benefits",
+    type: "MCQ",
+    options: [
+      {
+        header: "Universal Credit",
+        subheader: "You and/or someone in your household",
+      },
+      {
+        header: "Child Tax Credit",
+        subheader: "You and/or someone in your household",
+      },
+      {
+        header: "None of the above",
+      },
+    ],
+  },
 ]
 const total = questions.length
 export default function QuestionView() {
@@ -42,12 +100,12 @@ export default function QuestionView() {
   const [completion, setCompletion] = useState<number>(0)
   const changeQuestion = () => {
     if (questionNumber < total - 1) {
-      setQuestionNumber(questionNumber + 1)
+      setQuestionNumber((prevNumber) => prevNumber + 1)
       setCompletion((questionNumber / total) * 100)
     }
   }
   return (
-    <div className="flex flex-col">
+    <div className="flex h-dvh flex-col p-4">
       <div className="flex justify-between">
         <Button asChild variant="link" size="lg">
           <Link className="text-xl" href="/">
@@ -69,19 +127,20 @@ export default function QuestionView() {
           subtitle={questions[questionNumber].subtitle}
           type={questions[questionNumber].type as QuestionType}
           options={questions[questionNumber]?.options as OptionDef[]}
+          body={questions[questionNumber]?.body}
         />
       </div>
-      <footer className="pt-130">
+      <div className="fixed bottom-0 left-0 w-full p-4 pb-8">
         <Button
           type="submit"
           variant="submission"
-          className="w-full p-6 text-lg"
-          onClick={changeQuestion}
+          className="w-full p-6 text-lg font-semibold"
+          onClick={() => changeQuestion()}
           disabled={questionNumber >= total}
         >
           Save and Continue
         </Button>
-      </footer>
+      </div>
     </div>
   )
 }
