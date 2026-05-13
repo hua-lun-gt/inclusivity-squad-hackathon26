@@ -1,0 +1,24 @@
+name: discover-support-questionnaire
+questions:
+  - qn1:
+      - title: What is your date of birth?
+      - subtitle: You and your baby
+      - type: DateField
+      - options:
+          - 1:
+              - header:
+              - subheader:
+          - 2:
+              - header:
+              - subheader:
+  - qn1:
+      - title: What is your date of birth?
+      - subtitle: You and your baby
+      - type: DateField
+      - options:
+          - 1:
+              - header:
+              - subheader:
+          - 2:
+              - header:
+              - subheader:
