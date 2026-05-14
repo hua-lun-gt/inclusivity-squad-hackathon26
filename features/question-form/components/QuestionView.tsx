@@ -1,9 +1,14 @@
 "use client"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import QuestionCard, { OptionDef, QuestionType } from "./QuestionCard"
+import QuestionCard, {
+  OptionDef,
+  QuestionResponse,
+  QuestionType,
+} from "./QuestionCard"
 import { Progress } from "@/components/ui/progress"
 import { useState } from "react"
+import { useFormStore } from "../store/form-store"
 
 const questions = [
   {
@@ -96,12 +101,43 @@ const questions = [
 ]
 const total = questions.length
 export default function QuestionView() {
+  const { response, responses, setResponse, setResponses } = useFormStore()
   const [questionNumber, setQuestionNumber] = useState<number>(0)
   const [completion, setCompletion] = useState<number>(0)
+
   const changeQuestion = () => {
+    // Get the current response from the store
+    const currentResponse = useFormStore.getState().response
+    const currentResponses = useFormStore.getState().responses || []
+
+    // Create a new array with the current response added
+    let newResponses = [...currentResponses]
+
+    if (currentResponse) {
+      // Add the completed response
+      newResponses.push(currentResponse)
+    } else {
+      // Add an incomplete response if user skipped
+      const newResponse = {
+        category: questions[questionNumber].subtitle,
+        isCompleted: false,
+        type: questions[questionNumber].type,
+        question: questions[questionNumber].title,
+        answer: "",
+      } as QuestionResponse
+      newResponses.push(newResponse)
+    }
+
+    // Update the store with new responses array and clear current response
+    setResponses(newResponses)
+    setResponse(null)
+
+    console.log("Stored responses:", newResponses)
+
+    // Move to next question
     if (questionNumber < total - 1) {
       setQuestionNumber((prevNumber) => prevNumber + 1)
-      setCompletion((questionNumber / total) * 100)
+      setCompletion(((questionNumber + 1) / total) * 100)
     }
   }
   return (

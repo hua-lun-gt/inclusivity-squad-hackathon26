@@ -35,7 +35,13 @@ import {
 
 export type QuestionType = "DateField" | "Amount" | "MCQ" | "MultiSelect"
 export type OptionDef = { header: string; subheader: string }
-
+export type QuestionResponse = {
+  category: string
+  isCompleted: boolean
+  type: QuestionType
+  question: string
+  answer: string
+}
 interface QuestionCardProps {
   title: string
   subtitle: string
@@ -43,12 +49,47 @@ interface QuestionCardProps {
   body?: string
   options?: OptionDef[]
 }
-
+import { useFormStore } from "../store/form-store"
 export default function QuestionCard(props: QuestionCardProps) {
+  const { setResponse } = useFormStore()
   const [selected, setSelected] = useState<Date>(new Date())
+  const [amount, setAmount] = useState("")
+  const [choice, setChoice] = useState("")
+
+  const handleDateFieldRes = (date: Date) => {
+    const newResponse = {
+      category: props.subtitle,
+      isCompleted: true,
+      type: "DateField" as QuestionType,
+      question: props.title,
+      answer: date.toDateString(),
+    } as QuestionResponse
+    setResponse(newResponse)
+  }
+
+  const handleAmountRes = (value: string) => {
+    const newResponse = {
+      category: props.subtitle,
+      isCompleted: !!value,
+      type: "Amount" as QuestionType,
+      question: props.title,
+      answer: value,
+    } as QuestionResponse
+    setResponse(newResponse)
+  }
+
+  const handleMCQRes = (value: string) => {
+    const newResponse = {
+      category: props.subtitle,
+      isCompleted: true,
+      type: "MCQ" as QuestionType,
+      question: props.title,
+      answer: value,
+    } as QuestionResponse
+    setResponse(newResponse)
+  }
   const questionField = () => {
     const qType = props.type
-    console.log(props)
     if (qType == "DateField") {
       return (
         <Popover>
@@ -62,7 +103,12 @@ export default function QuestionCard(props: QuestionCardProps) {
               required={true}
               mode="single"
               selected={selected}
-              onSelect={setSelected}
+              onSelect={(date) => {
+                if (date) {
+                  setSelected(date)
+                  handleDateFieldRes(date)
+                }
+              }}
             />
           </PopoverContent>
         </Popover>
@@ -83,36 +129,33 @@ export default function QuestionCard(props: QuestionCardProps) {
               className="h-10 bg-background"
               id="input-button"
               placeholder="3,115"
+              value={amount}
+              onChange={(e) => {
+                const value = e.target.value
+                setAmount(value)
+                handleAmountRes(value)
+              }}
             />
           </ButtonGroup>
         </div>
       )
     } else if (qType == "MCQ") {
       return (
-        <Card>
-          {/* <RadioGroup defaultValue="option-1">
+        <Card className="p-0">
+          <RadioGroup
+            className="gap-0"
+            onValueChange={(value) => {
+              setChoice(value)
+              handleMCQRes(value)
+            }}
+          >
             {props.options?.map((option, index) => (
-              <CardContent key={index} className="p-6">
-                <div className="flex justify-between gap-3">
-                  <Label htmlFor={`option-${index}`}>{option.header}</Label>
-                  <RadioGroupItem
-                    value={`option-${index}`}
-                    id={`option-${index}`}
-                  />
-                </div>
-              </CardContent>
-            ))}
-          </RadioGroup> */}
-          {/* <FieldGroup className="w-full max-w-xs">
-            <FieldSet>
-              <FieldLegend variant="label">Compute Environment</FieldLegend>
-              <FieldDescription>
-                Select the compute environment for your cluster.
-              </FieldDescription> */}
-          <RadioGroup className="gap-0">
-            {props.options?.map((option, index) => (
-              <FieldLabel key={index} htmlFor={`option-${index}`}>
-                <Field orientation="horizontal">
+              <FieldLabel
+                className="min-h-[92px] border-none flex items-center"
+                key={index}
+                htmlFor={`option-${index}`}
+              >
+                <Field orientation="horizontal" className="w-full justify-between items-center">
                   <FieldContent>
                     <FieldTitle>{option.header}</FieldTitle>
                     <FieldDescription>{option.subheader}</FieldDescription>
