@@ -9,6 +9,7 @@ import QuestionCard, {
 import { Progress } from "@/components/ui/progress"
 import { useState } from "react"
 import { useFormStore } from "../store/form-store"
+import { useRouter } from "next/navigation"
 
 const questions = [
   {
@@ -98,13 +99,52 @@ const questions = [
       },
     ],
   },
+  {
+    title: "Can we save your information for later?",
+    subtitle: "Your data preferences",
+    body: "Sharing data between government services improves your experience and reduces repeated steps. You can stop sharing at any time.",
+    type: "MCQ",
+    options: [
+      {
+        header: "Yes, save my answers",
+        subheader:
+          "By saving, you will not have to type it out again when you apply for services.",
+      },
+      {
+        header: "No, do not save my answers",
+        subheader: "Your answers will be deleted when you close this page",
+      },
+    ],
+  },
+  {
+    title: "Check your answers",
+    subtitle: "Summary",
+    type: "MultiSelect",
+    options: [
+      {
+        header: "You and your baby",
+      },
+      {
+        header: "Your home",
+      },
+      {
+        header: "Your work and earnings",
+      },
+      {
+        header: "Your current benefits",
+      },
+      {
+        header: "Your data preferences",
+      },
+    ],
+  },
 ]
 const total = questions.length
 export default function QuestionView() {
   const { response, responses, setResponse, setResponses } = useFormStore()
   const [questionNumber, setQuestionNumber] = useState<number>(0)
   const [completion, setCompletion] = useState<number>(0)
-
+  const router = useRouter()
   const changeQuestion = () => {
     // Get the current response from the store
     const currentResponse = useFormStore.getState().response
@@ -167,15 +207,26 @@ export default function QuestionView() {
         />
       </div>
       <div className="fixed bottom-0 left-0 w-full p-4 pb-8">
-        <Button
-          type="submit"
-          variant="submission"
-          className="w-full p-6 text-lg font-semibold"
-          onClick={() => changeQuestion()}
-          disabled={questionNumber >= total}
-        >
-          Save and Continue
-        </Button>
+        {questions[questionNumber].subtitle == "Summary" ? (
+          <Button
+            type="submit"
+            variant="submission"
+            className="w-full p-6 text-lg font-semibold"
+            onClick={() => router.push("/support-results")}
+          >
+            Discover available support
+          </Button>
+        ) : (
+          <Button
+            type="submit"
+            variant="submission"
+            className="w-full p-6 text-lg font-semibold"
+            onClick={() => changeQuestion()}
+            disabled={questionNumber >= total}
+          >
+            Save and Continue
+          </Button>
+        )}
       </div>
     </div>
   )

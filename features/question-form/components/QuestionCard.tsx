@@ -1,5 +1,5 @@
 "use client"
-import { PoundSterling } from "lucide-react"
+import { Check, PoundSterling } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -50,6 +50,7 @@ interface QuestionCardProps {
   options?: OptionDef[]
 }
 import { useFormStore } from "../store/form-store"
+import { Checkbox } from "@/components/ui/checkbox"
 export default function QuestionCard(props: QuestionCardProps) {
   const { setResponse } = useFormStore()
   const [selected, setSelected] = useState<Date>(new Date())
@@ -151,11 +152,14 @@ export default function QuestionCard(props: QuestionCardProps) {
           >
             {props.options?.map((option, index) => (
               <FieldLabel
-                className="min-h-[92px] border-none flex items-center"
+                className="flex min-h-[92px] items-center border-none"
                 key={index}
                 htmlFor={`option-${index}`}
               >
-                <Field orientation="horizontal" className="w-full justify-between items-center">
+                <Field
+                  orientation="horizontal"
+                  className="w-full items-center justify-between"
+                >
                   <FieldContent>
                     <FieldTitle>{option.header}</FieldTitle>
                     <FieldDescription>{option.subheader}</FieldDescription>
@@ -168,26 +172,43 @@ export default function QuestionCard(props: QuestionCardProps) {
                 </Field>
               </FieldLabel>
             ))}
+            {props.body && (
+              <FieldLabel className="flex min-h-[92px] items-center border-none">
+                <Field
+                  orientation="horizontal"
+                  className="w-full items-center justify-between"
+                >
+                  <FieldContent>
+                    <FieldDescription>About data and sharing</FieldDescription>
+                  </FieldContent>
+                </Field>
+              </FieldLabel>
+            )}
           </RadioGroup>
         </Card>
       )
     } else if (qType == "MultiSelect") {
       return (
-        <Card>
-          <RadioGroup defaultValue="option-1">
-            {props.options?.map((option, index) => (
-              <CardContent key={index} className="p-6">
-                <div className="flex justify-between gap-3">
-                  <Label htmlFor={`option-${index}`}>{option.header}</Label>
-                  <RadioGroupItem
-                    value={`option-${index}`}
-                    id={`option-${index}`}
-                  />
-                </div>
-              </CardContent>
-            ))}
-          </RadioGroup>
-        </Card>
+        <RadioGroup defaultValue="plus" className="max-w-full">
+          {props.options?.map((option, index) => (
+            <FieldLabel
+              key={index}
+              htmlFor="plus-plan"
+              className="min-h-16 has-data-checked:bg-primary"
+            >
+              <Field orientation="horizontal">
+                {/* <RadioGroupItem value="plus" id="plus-plan" /> */}
+                <Checkbox name="toggle-checkbox-2" checked={true} />
+
+                <FieldContent>
+                  <FieldTitle className="text-white">
+                    {option.header}
+                  </FieldTitle>
+                </FieldContent>
+              </Field>
+            </FieldLabel>
+          ))}
+        </RadioGroup>
       )
     }
   }
