@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
+import { MoveUpRight } from "lucide-react"
 import {
   Card,
   CardAction,
@@ -58,10 +59,7 @@ export default function HomeCard(props: HomeCardProps) {
               {/* </Button> */}
             </DrawerTrigger>
             <DrawerContent className="h-full">
-              <DrawerHeader>
-                <DrawerTitle>
-                  Find financial support for your children
-                </DrawerTitle>
+              <DrawerHeader className="space-y-2">
                 <div className="mx-auto object-center p-8">
                   <Image
                     className=""
@@ -71,11 +69,14 @@ export default function HomeCard(props: HomeCardProps) {
                     height="150"
                   />
                 </div>
-                <DrawerDescription>
+                <DrawerTitle className="text-3xl font-bold">
+                  Find financial support for your children
+                </DrawerTitle>
+                <DrawerDescription className="text-base/6">
                   Check what financial help you could get if you are trying for
                   a baby, pregnant, or a new parent.
                 </DrawerDescription>
-                <DrawerDescription>
+                <DrawerDescription className="text-base/6">
                   Your answers are saved as you go, so you can leave the page
                   and come back later.
                 </DrawerDescription>
@@ -87,7 +88,9 @@ export default function HomeCard(props: HomeCardProps) {
                   size="lg"
                   className="w-full p-6 text-lg font-semibold"
                 >
-                  <Link href="/questionnaire">Check eligibility</Link>
+                  <Link href="/questionnaire">
+                    Check eligibility <MoveUpRight />
+                  </Link>
                 </Button>
                 <Button
                   asChild
@@ -95,7 +98,9 @@ export default function HomeCard(props: HomeCardProps) {
                   size="lg"
                   className="w-full p-6 text-lg font-semibold"
                 >
-                  <Link href="/questionnaire">All support available</Link>
+                  <Link href="/questionnaire">
+                    All support available <MoveUpRight />
+                  </Link>
                 </Button>
                 <DrawerClose>Cancel</DrawerClose>
               </DrawerFooter>
