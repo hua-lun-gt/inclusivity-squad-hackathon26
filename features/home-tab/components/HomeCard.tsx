@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
 import {
   Card,
   CardAction,
@@ -61,6 +62,15 @@ export default function HomeCard(props: HomeCardProps) {
                 <DrawerTitle>
                   Find financial support for your children
                 </DrawerTitle>
+                <div className="mx-auto object-center p-8">
+                  <Image
+                    className=""
+                    src="/assets/baby_illustration.png"
+                    alt={"illustration of a baby bottle"}
+                    width="150"
+                    height="150"
+                  />
+                </div>
                 <DrawerDescription>
                   Check what financial help you could get if you are trying for
                   a baby, pregnant, or a new parent.
@@ -71,8 +81,21 @@ export default function HomeCard(props: HomeCardProps) {
                 </DrawerDescription>
               </DrawerHeader>
               <DrawerFooter>
-                <Button asChild variant="submission" size="lg">
+                <Button
+                  asChild
+                  variant="submission"
+                  size="lg"
+                  className="w-full p-6 text-lg font-semibold"
+                >
                   <Link href="/questionnaire">Check eligibility</Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="link"
+                  size="lg"
+                  className="w-full p-6 text-lg font-semibold"
+                >
+                  <Link href="/questionnaire">All support available</Link>
                 </Button>
                 <DrawerClose>Cancel</DrawerClose>
               </DrawerFooter>
