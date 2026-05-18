@@ -11,6 +11,7 @@ import { useState } from "react"
 import { useFormStore } from "../store/form-store"
 import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { useRouter } from "next/navigation"
 
 interface SupportResultsViewProps {
   isDuring: boolean
@@ -20,6 +21,7 @@ interface SupportResultsViewProps {
 }
 
 export default function SupportResultsView(props: SupportResultsViewProps) {
+  const router = useRouter()
   return (
     <div className="flex flex-col p-4 pb-36">
       <div className="flex justify-between">
@@ -207,6 +209,7 @@ export default function SupportResultsView(props: SupportResultsViewProps) {
           type="submit"
           variant="submission"
           className="w-full p-6 text-lg font-semibold"
+          onClick={() => router.push("/plan")}
         >
           Create a Plan
         </Button>
