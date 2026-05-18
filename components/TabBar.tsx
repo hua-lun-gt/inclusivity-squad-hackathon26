@@ -2,11 +2,11 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-
+import { Home, MessageCircle, Settings } from "lucide-react"
 const tabs = [
-  { label: "Home", href: "/", icon: "🏠" },
-  { label: "Chat", href: "/chat", icon: "💬" },
-  { label: "Settings", href: "/settings", icon: "⛭" },
+  { label: "Home", href: "/", icon: Home },
+  { label: "Chat", href: "#!", icon: MessageCircle },
+  { label: "Settings", href: "#", icon: Settings },
 ]
 
 export default function TabBar() {
@@ -20,7 +20,7 @@ export default function TabBar() {
           href={tab.href}
           className={`flex flex-col items-center gap-1 px-4 py-2 text-xs ${pathname === tab.href ? "font-semibold text-blue-600" : "text-gray-500"}`}
         >
-          <span className="text-xl">{tab.icon}</span>
+          <tab.icon />
           {tab.label}
         </Link>
       ))}
