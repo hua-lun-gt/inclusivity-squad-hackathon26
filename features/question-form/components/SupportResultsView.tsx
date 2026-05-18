@@ -12,6 +12,8 @@ import { useFormStore } from "../store/form-store"
 import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { useRouter } from "next/navigation"
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
+import CreatePlanForm from "@/features/planner/components/CreatePlanForm"
 
 interface SupportResultsViewProps {
   isDuring: boolean
@@ -209,7 +211,7 @@ export default function SupportResultsView(props: SupportResultsViewProps) {
           type="submit"
           variant="submission"
           className="w-full p-6 text-lg font-semibold"
-          onClick={() => router.push("/plan")}
+          onClick={() => router.push("/create-plan")}
         >
           Create a Plan
         </Button>
