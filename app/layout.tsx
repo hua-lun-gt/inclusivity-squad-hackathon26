@@ -11,7 +11,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className={cn("antialiased")}>
       <body className="bg-accent">
         {/* <ThemeProvider> */}
-        <div className="bg-white">{children}</div>
+        <div className="">{children}</div>
         {/* </ThemeProvider> */}
       </body>
     </html>
